@@ -47,6 +47,14 @@ if admins:
     admins = json.loads(admins[0][0])
 for key in admins:
     bot.send_message(key, f"Произошёл запуск бота\nВремя запуска: {last_start}")
+def start_60s():
+    timer = 1
+    while timer <= 60:
+        print(timer)
+        timer += 1
+        time.sleep(1)
+start_thread = Thread(target=start_60s)
+start_thread.start()
 def split_date(line):
     line = line.strip()
     data = line.split(".")
