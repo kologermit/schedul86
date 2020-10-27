@@ -723,7 +723,7 @@ def weekdays():
             answers = json.loads(answers[0][0])
             start_settings = json.loads(start_settings[0][0])
         time.sleep(30)
-        requests.get(f'https://ya.ru')
+        requests.post(f'https://ya.ru')
         print(datetime.strftime(datetime.now(), "%Y.%m.%d %H:%M:%S"), len(answers))
 
 thread1 = Thread(target=weekdays)
