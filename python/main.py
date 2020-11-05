@@ -135,7 +135,7 @@ def classes_markup(featured_classes):
 # Функция для создания стартового сообщения
 def start_markup(commands=[]):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    arr = ["Уроки", "Звонки", "Информация", "Где физ-ра?" , "Настройки"]
+    arr = ["Уроки", "Звонки", "Информация", "Где физ-ра?" , "Настройки", "Меню в столовой"]
     for i in range(len(arr)):
         arr[i] = types.KeyboardButton(arr[i])
     for key in commands:
@@ -344,6 +344,31 @@ def start(message):
          where=[("id", "=", message.chat.id)])
     return
 
+
+@bot.message_handler(commands=["set_menu"])
+def edit_schedule(message):
+    log_query(get_sql(), 
+        date=datetime.strftime(datetime.now(), "%Y.%m.%d %H:%M:%S"),
+        chat_id=message.chat.id,
+        first_name=message.chat.first_name,
+        last_name=message.chat.last_name,
+        text=message.text
+    )
+    message.text = message.text.strip()
+    chat_id = BD_query.BD_query(BD_query.get_sql(**config.mysql_config), "SELECT", table="info", columns="text", where=[("theme", "=", "techers")])
+    if chat_id == []:
+        return None
+    elif message.chat.id not in json.loads(chat_id[0][0]):
+        bot.send_message(message.chat.id, "У вас нет прав изменять \nменю столовой!")
+        return None
+    answer = edit_calls.next_word(message.text)[1]
+    if answer:
+        BD_query.BD_query(get_sql(), "UPDATE", "info", data=[("text", answer)], \
+            where=[("theme", "=", "menu")])
+        bot.send_message(message.chat.id, "Меню столовой изменено")
+    else:
+        bot.send_message(message.chat.id, "В команде нет изменений!")
+
 @bot.message_handler(commands=["edit_schedule"])
 def edit_schedule(message):
     log_query(get_sql(), 
@@ -509,7 +534,13 @@ def main1(message):
         elif message.text == "ВСЯ НЕДЕЛЯ":
             schedule.alldays(message, bot, status, start_markup(status["settings"]["commands"]))
             return
-            
+    
+    if message.text == "МЕНЮ В СТОЛОВОЙ":
+        answer = BD_query.BD_query(get_sql(), "SELECT", "info", columns="text", where=[("theme", "=", "menu")], limit=1)
+        answer = answer[0][0]
+        bot.send_message(message.chat.id, answer)
+        return    
+
     if status["class_n"] != None and is_settings():
         if is_b_in_classes(status["class_n"], message.text):
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
