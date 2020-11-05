@@ -1,4 +1,4 @@
-TOKEN = "1280854719:AAHEBfa_MRkZzJDagqESPQ05NJ_Li_wODJI" # Основной
+TOKEN = "1375982367:AAFWkCEWt4A67Bs2REOwM-e2AdQEpYfd7Fw" # Основной
 API_KEY = "5fbabd1a278d9b5056aafd129a588954"
 # mysql_config = {
 # 	"user": 'root',
