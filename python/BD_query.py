@@ -1,3 +1,8 @@
+
+"""
+Documentation
+"""
+
 import mysql.connector
 import time
 from datetime import datetime
