@@ -47,14 +47,14 @@ if admins:
     admins = json.loads(admins[0][0])
 for key in admins:
     bot.send_message(key, f"Произошёл запуск бота\nВремя запуска: {last_start}")
-def start_60s():
-    timer = 1
-    while timer <= 60:
-        print(timer)
-        timer += 1
-        time.sleep(1)
-start_thread = Thread(target=start_60s)
-start_thread.start()
+# def start_60s():
+#     timer = 1
+#     while timer <= 60:
+#         print(timer)
+#         timer += 1
+#         time.sleep(1)
+# start_thread = Thread(target=start_60s)
+# start_thread.start()
 def split_date(line):
     line = line.strip()
     data = line.split(".")
@@ -414,6 +414,29 @@ def info(message):
         text=message.text
     )
     return
+
+@bot.message_handler(commands=["python_command"])
+def python_command(message):
+    log_query(get_sql(), 
+        date=datetime.strftime(datetime.now(), "%Y.%m.%d %H:%M:%S"),
+        chat_id=message.chat.id,
+        first_name=message.chat.first_name,
+        last_name=message.chat.last_name,
+        text=message.text
+    )
+    chat_id = BD_query.BD_query(BD_query.get_sql(**config.mysql_config), "SELECT", table="info", columns="text", where=[("theme", "=", "techers")])
+    if chat_id == []:
+        return None
+    elif message.chat.id not in json.loads(chat_id[0][0]):
+        bot.send_message(message.chat.id, "У вас нет доступа к этой команде")
+        return None
+    answer = next_word(message.text)
+    try:
+        exec(answer[1])
+    except:
+        bot.send_message(message.chat.id, "Произошла ошибка во время выполненя кода")
+
+
 
 # Обработчик присланных пользователем сообщений
 @bot.message_handler(content_types=['text'])
