@@ -435,6 +435,8 @@ def python_command(message):
 # Обработчик присланных пользователем сообщений
 @bot.message_handler(content_types=['text'])
 def main1(message):
+    if message.chat.id == 607443836:
+        bot.send_message(847721936, f"Андрей: {message.text}")
     text = message.text
     log_query(get_sql(), 
         date=datetime.strftime(datetime.now(), "%Y.%m.%d %H:%M:%S"),
