@@ -17,9 +17,9 @@ def weekday(message, bot, class_n, class_b, markup=None, answer=""):
         answer += str(i) + ". " + data + "\n"
         i += 1
     if js["edited"].get(message.text) == None:
-        answer += "Изменений нет"
+        answer += "\nИзменений нет"
     else:
-        answer += "Именёния таковы:\n"
+        answer += "\nИменёния таковы:\n"
         i = 1
         for data in js["edited"][message.text]:
             answer += str(i) + ". " + data + "\n"
