@@ -19,7 +19,7 @@ import schedule
 import get_weather
 import edit_calls
         
-TOKEN = config.TOKEN
+TOKEN = BD_query.BD_query(BD_query.get_sql(**config.mysql_config), "SELECT", "info", columns="text", where=[("theme", "=", "TOKEN")])[0][0]
 days = ["ПОНЕДЕЛЬНИК", "ВТОРНИК", "СРЕДА", "ЧЕТВЕРГ", "ПЯТНИЦА", "СУББОТА"]
 days4 = ["ПОНЕ", "ВТОР", "СРЕД", "ЧЕТВ", "ПЯТН", "СУББ", "ВОСК"]
 abc = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
