@@ -129,6 +129,7 @@ def read(path, bot, message):
                         pass
                     while len(data[key]) and data[key][-1] == "-":
                         data[key].pop()
-
-    bot.send_message(message.chat.id, f"День: {day}\nРасписание: {edited}\nКлассы: {classes_in_excel}\nДанные: {data}")
+    answer = f"День: {day}\nРасписание: {edited}\nКлассы: {classes_in_excel}\nДанные: {data}"
+    for i in range(100, len(answer), 100):
+        bot.send_message(message.chat.id, answer[i - 100: i])
     return (data, edited, day)

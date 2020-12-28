@@ -17,9 +17,9 @@ def weekday(message, bot, class_n, class_b, markup=None, answer=""):
         answer += str(i) + ". " + data + "\n"
         i += 1
     if js["edited"].get(message.text) == None:
-        answer += "\nИзменений нет"
+        answer += "\n\nИзменений нет"
     else:
-        answer += "\nИменёния таковы:\n"
+        answer += "\n\nИменёния таковы:\n"
         i = 1
         for data in js["edited"][message.text]:
             answer += str(i) + ". " + data + "\n"
@@ -44,7 +44,6 @@ def alldays(message, bot, status, markup):
             answer += f"{i}. {data2}\n"
             i += 1
         answer += '\n'
-    answer += '\n'
     if js["edited"] == {}:
         answer += "\nИзменений нет"
     else:
@@ -56,6 +55,6 @@ def alldays(message, bot, status, markup):
                 for data2 in js["edited"][data]:
                     answer += "{0}. {1}\n".format(i, data2)
                     i += 1
-                answer += "\n\n"
+                # answer += "\n\n"
     bot.send_message(message.chat.id, answer, reply_markup=markup)
     return   
