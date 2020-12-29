@@ -287,6 +287,8 @@ def document(message):
                             answer = f'Изменения в расписании на {day.lower()} для {key2}:\n'
                         else:
                             answer = f'Изменения в основном расписании на {day.lower()} для {key2}:\n'
+                        if day in ["ПЯТНИЦУ", "СУББОТУ", "СРЕДУ"]:
+                            day = day[:len(day) - 1] + "А"
                         for i in range(len(data[key2])):
                             answer += f"{i + 1}. {data[key2][i]}\n"
                         bot.send_message(key["id"], answer)
@@ -302,7 +304,7 @@ def document(message):
                 class_n = int(key[0][0])
                 class_b = key[0][1]
             answer = BD_query.BD_query(get_sql(), "SELECT", "classes", columns="schedule", where=[("class_b", "=", class_b), ("class_n", "=", class_n)])
-            print("Check 1", answer)
+            # print("Check 1", answer)
             if answer == []:
                 raise Exception("BD_query: Error")
             else:
@@ -310,7 +312,7 @@ def document(message):
             answer = json.loads(answer)
             answer[edited][day.upper()] = key[1]
             r = BD_query.BD_query(get_sql(), "UPDATE", "classes", where=[("class_b", "=", class_b), ("class_n", "=", class_n)], data=[("schedule", json.dumps(answer, indent=2))])
-            print("Check 2", r)
+            # print("Check 2", r)
         os.remove(path)
     except Exception as err:
         
