@@ -281,8 +281,8 @@ def document(message):
                         class_b = key2[-1]
                         js = data
                         day = message.text
-                        if message.text in ["ПЯТНИЦА", "СУББОТА", "СРЕДА"]:
-                            day = day[:len(day) - 1] + "У"
+                        # if message.text in ["ПЯТНИЦА", "СУББОТА", "СРЕДА"]:
+                        #     day = day[:len(day) - 1] + "У"
                         if edited == 'edited':
                             answer = f'Изменения в расписании на {day.lower()} для {key2}:\n'
                         else:
