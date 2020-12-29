@@ -123,7 +123,7 @@ def read(path, bot, message):
                             elif str(sheet.cell_value(i + i1, j + 2)) == "/":
                                 lesson += ")"
                             if len(lesson) <= 5:
-                                print(lesson)
+                                # print(lesson)
                             data[key].append(lesson)
                     except:
                         pass

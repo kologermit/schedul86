@@ -302,17 +302,19 @@ def document(message):
                 class_n = int(key[0][0])
                 class_b = key[0][1]
             answer = BD_query.BD_query(get_sql(), "SELECT", "classes", columns="schedule", where=[("class_b", "=", class_b), ("class_n", "=", class_n)])
+            print("Check 1", answer)
             if answer == []:
                 raise Exception("BD_query: Error")
             else:
                 answer = answer[0][0]
             answer = json.loads(answer)
             answer[edited][day.upper()] = key[1]
-            BD_query.BD_query(get_sql(), "UPDATE", "classes", where=[("class_b", "=", class_b), ("class_n", "=", class_n)], data=[("schedule", json.dumps(answer, indent=2))])
+            r = BD_query.BD_query(get_sql(), "UPDATE", "classes", where=[("class_b", "=", class_b), ("class_n", "=", class_n)], data=[("schedule", json.dumps(answer, indent=2))])
+            print("Check 2", r)
         os.remove(path)
     except Exception as err:
         
-        # print(err)
+        print(err)
         bot.send_message(message.chat.id, answers["file_processing_error"])
         os.remove(path)
         return
