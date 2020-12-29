@@ -287,12 +287,12 @@ def document(message):
                             answer = f'Изменения в расписании на {day.lower()} для {key2}:\n'
                         else:
                             answer = f'Изменения в основном расписании на {day.lower()} для {key2}:\n'
-                        if day in ["ПЯТНИЦУ", "СУББОТУ", "СРЕДУ"]:
-                            day = day[:len(day) - 1] + "А"
                         for i in range(len(data[key2])):
                             answer += f"{i + 1}. {data[key2][i]}\n"
                         bot.send_message(key["id"], answer)
                         BD_query.BD_query(BD_query.get_sql(**config.mysql_config), "UPDATE", "users", data=[('class_n', None), ('class_b', None)], where=[("id", "=", message.chat.id)])
+                    if day in ["ПЯТНИЦУ", "СУББОТУ", "СРЕДУ"]:
+                        day = day[:len(day) - 1] + "А"
         else:
             os.remove(path)
             return
