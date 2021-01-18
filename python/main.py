@@ -19,7 +19,15 @@ import schedule
 import get_weather
 import edit_calls
         
-TOKEN = BD_query.BD_query(BD_query.get_sql(**config.mysql_config), "SELECT", "info", columns="text", where=[("theme", "=", "TOKEN")])[0][0]
+while True:
+    try:
+        # bot = telebot.TeleBot(TOKEN)
+        mysql.connector.connect(**config.mysql_config)
+        TOKEN = BD_query.BD_query(BD_query.get_sql(**config.mysql_config), "SELECT", "info", columns="text", where=[("theme", "=", "TOKEN")])[0][0]
+        break
+    except:# HTTPSConnectionPool as err:
+        print("err_m")
+
 days = ["ПОНЕДЕЛЬНИК", "ВТОРНИК", "СРЕДА", "ЧЕТВЕРГ", "ПЯТНИЦА", "СУББОТА"]
 days4 = ["ПОНЕ", "ВТОР", "СРЕД", "ЧЕТВ", "ПЯТН", "СУББ", "ВОСК"]
 abc = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
@@ -36,8 +44,8 @@ while True:
         bot = telebot.TeleBot(TOKEN)
         mysql.connector.connect(**config.mysql_config)
         break
-    except HTTPSConnectionPool as err:
-        print(err)
+    except:# HTTPSConnectionPool as err:
+        print("err")
 
 BD_query.BD_query(BD_query.get_sql(**config.mysql_config), "UPDATE", "info", data=[('text', datetime.strftime(datetime.now(), "%Y.%m.%d %H:%M:%S"))], where=[("theme", "=", "last_start")])
 admins = BD_query.BD_query(BD_query.get_sql(**config.mysql_config), "SELECT", "info", \
