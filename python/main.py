@@ -351,7 +351,7 @@ def start(message):
 
 
 @bot.message_handler(commands=["set_menu"])
-def edit_schedule(message):
+def set_menu(message):
     log_query(get_sql(), 
         date=datetime.strftime(datetime.now(), "%Y.%m.%d %H:%M:%S"),
         chat_id=message.chat.id,
@@ -796,12 +796,20 @@ def weekdays():
         requests.post(f'https://ya.ru')
         print(datetime.strftime(datetime.now(), "%Y.%m.%d %H:%M:%S"), len(answers))
 
+def input_thread():
+    while True:
+        inq = input()
+
 thread1 = Thread(target=weekdays)
 thread1.start()
+thread2 = Thread(target=input_thread)
+thread2.start()
+inq = ''
 while True:
     try:
         bot.polling(none_stop=True)
-
+        if inq.upper() == 'EXIT':
+            exit()
     except Exception as e:
         print(e) 
         time.sleep(15)

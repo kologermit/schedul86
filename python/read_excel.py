@@ -15,7 +15,37 @@ def is_num(line):
     except:
         
         return False
-    
+
+def is_date(line):
+    # dd.mm.yyyy
+    # dd/mm/yyyy
+    if len(line) < 8 or len(line) > 10:
+        return False
+    if line.count(".") != 2 and line.count("/") != 2:
+        return False
+    if line.count(".") == 2:
+        line = line.split('.')
+    else:
+        line = line.split('/')
+    if is_num(line[0]) == False or is_num(line[1]) == False or is_num(line[2]) == False:
+        return False
+    line = [int(line[0]), int(line[1]), int(line[2])]
+    if line[1] < 1 or line[1] > 12 or line[2] < 2020 or line[2] > 2021:
+        return False
+    if line[1] in [1, 3, 5, 7, 8, 10, 12] and (line[0] < 1 or line[0] > 31):
+        return False
+    if line[1] in [4, 6, 9, 11] and (line[0] < 1 or line[0] > 30):
+        return False
+    if line[2] % 4 == 0:
+        if line[2] % 400 != 0: 
+            if line[1] == 2 and (line[0] < 1 or line[0] > 29):
+                return False
+            else:
+                return line
+    if line[1] == 2 and (line[0] < 1 or line[0] > 28):
+        return False
+    return line
+        
 def is_class_name(classes, line):
     abc = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
     line = line.strip().upper()
